@@ -1,0 +1,20 @@
+{
+    "locations": [
+        {
+            "name": "東京",
+            "code": "Tokyo"
+        },
+        {
+            "name": "兵庫",
+            "code": "Hyogo"
+        },
+        {
+            "name": "大分",
+            "code": "Oita"
+        },
+        {
+            "name": "北海道",
+            "code": "Hokkaido"
+        }
+    ]
+}
