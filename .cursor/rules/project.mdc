@@ -3,6 +3,12 @@ description:
 globs:
 alwaysApply: true
 ---
+## このルールについて
+このルールを読み込んだ場合、チャットで応答する場合は下記文言を出力する
+```
+✓project.mdc
+```
+
 ## このプロジェクトの目的について
 
 `docs/private/要望.md`を参照してください。
