@@ -1,7 +1,17 @@
-<script>
-    import settings from '$lib/settings.json'
-    import AriaList from './AriaList.svelte'
+<script lang="ts">
+    import settings from '$lib/settings.json';
+    import PageHeader from '$lib/components/PageHeader.svelte';
+    import LocationList from '$lib/components/LocationList.svelte';
 </script>
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
-<AriaList locations={settings.locations} />
+
+<svelte:head>
+    <title>天気予報アプリ</title>
+</svelte:head>
+
+<div class="container mx-auto px-4 py-8">
+    <PageHeader title="天気予報アプリ" />
+
+    <main>
+        <LocationList locations={settings.locations} />
+    </main>
+</div>
