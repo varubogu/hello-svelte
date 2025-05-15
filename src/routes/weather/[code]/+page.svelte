@@ -3,6 +3,34 @@
 </script>
 a
 <p>
-    {data.props.ariaCode}
+    {data.props.name}
 </p>
+<table>
+    <thead>
+        <tr>
+            <th>
+                日付
+            </th>
+            <th>
+                天気
+            </th>
+            <th>
+                気温
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each data.props.weather.list as weather}
+        <tr>
+            <td>
+                {weather.date}
+            </td>
+            <td>
+                {weather.weather}
+            </td>
+            <td>
+                {weather.temperature}
+            </td>
+        </tr>
+    </table>
 b
