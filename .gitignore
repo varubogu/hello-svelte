@@ -25,3 +25,7 @@ vite.config.ts.timestamp-*
 
 # private doc
 docs/private/*
+
+# data
+data/*
+!data/.gitkeep
