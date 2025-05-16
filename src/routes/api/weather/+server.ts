@@ -1,5 +1,9 @@
 import { json } from '@sveltejs/kit';
-import { OPENWEATHER_API_KEY, CACHE_TTL_MILISEC } from '$env/static/private';
+import {
+  OPENWEATHER_API_KEY,
+  CACHE_TTL_MILISEC,
+  OPENWEATHER_API_URL
+} from '$env/static/private';
 import type { RequestHandler } from './$types';
 import type { WeatherApiResponse, WeatherCache } from '$lib/types';
 import { kv } from '$lib/KeyValueStore';
@@ -72,7 +76,7 @@ async function _getWeatherCache(locationCode: string): Promise<WeatherApiRespons
  */
 async function _getWeatherAPI(locationCode: string, apiKey: string): Promise<WeatherApiResponse> {
     // 5日間予報APIのURL
-    const baseUrl = 'https://api.openweathermap.org/data/2.5/forecast';
+    const baseUrl = OPENWEATHER_API_URL;
     const url = new URL(baseUrl);
 
     // クエリパラメータの設定
