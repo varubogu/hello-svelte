@@ -8,3 +8,9 @@
 4. `npm install`
 5. `npm run dev`
 
+## .envの内容について
+
+必須パラメータ
+- OPENWEATHER_API_KEY
+
+

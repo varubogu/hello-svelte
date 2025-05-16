@@ -7,7 +7,7 @@ import { KV_MODE, MY_KV_NAMESPACE } from '$env/static/private';
 
 let kv: KVStore;
 
-if (KV_MODE === 'cloudFlare' && MY_KV_NAMESPACE) {
+if (KV_MODE === 'cloudflare' && MY_KV_NAMESPACE) {
 
   kv = new CloudFlareKV(MY_KV_NAMESPACE); // Cloudflare上でバインドされたKV
 } else {
