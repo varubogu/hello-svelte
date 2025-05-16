@@ -1,4 +1,5 @@
 import { json } from '@sveltejs/kit';
+import { OPENWEATHER_API_KEY } from '$env/static/private';
 import type { RequestHandler } from './$types';
 import type { WeatherApiResponse } from '$lib/types';
 import { kv } from '$lib/KeyValueStore';
@@ -41,7 +42,7 @@ async function _getWeatherCache(locationCode: string): Promise<WeatherApiRespons
     return JSON.parse(cachedData);
   }
 
-  const apiKey = process.env.OPENWEATHER_API_KEY;
+  const apiKey = OPENWEATHER_API_KEY;
 
   if (!apiKey) {
     throw new Error('APIキーが設定されていません');
