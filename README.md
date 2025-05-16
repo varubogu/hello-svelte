@@ -14,3 +14,14 @@
 - OPENWEATHER_API_KEY
 
 
+# プロジェクト構成（概要のみ）
+
+root
+├── docs/ 設計書類
+├── data/ ローカル動作時のデータ格納用
+├── src/ ソースコード
+
+
+## 実装できなかったもの
+
+- テストコード（vitest、playwright）
