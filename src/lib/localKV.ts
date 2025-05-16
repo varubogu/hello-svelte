@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import type { KVStore } from './types';
 
-const DB_FILE = path.resolve('./local-kv.json');
+const DB_FILE = path.resolve('./data/local-kv.json');
 
 type Entry = { value: string; expireAt?: number };
 

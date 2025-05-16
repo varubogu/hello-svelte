@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
-import { OPENWEATHER_API_KEY } from '$env/static/private';
+import { OPENWEATHER_API_KEY, CACHE_TTL_MILISEC } from '$env/static/private';
 import type { RequestHandler } from './$types';
-import type { WeatherApiResponse } from '$lib/types';
+import type { WeatherApiResponse, WeatherCache } from '$lib/types';
 import { kv } from '$lib/KeyValueStore';
 
 /**
@@ -33,36 +33,35 @@ export const GET: RequestHandler = async ({ url }) => {
   }
 };
 
-const CACHE_TTL = 3600000; // 1時間 (ミリ秒)
-
 async function _getWeatherCache(locationCode: string): Promise<WeatherApiResponse> {
-
+  const now = new Date();
   const cachedData = await kv.get(locationCode);
   if (cachedData) {
-    return JSON.parse(cachedData);
+    const cachedDataJson: WeatherCache = JSON.parse(cachedData);
+    if (cachedDataJson.expires > Date.now()) {
+      return cachedDataJson.response;
+    }
   }
 
+  // キャッシュがないか期限切れの場合は新しく取得
   const apiKey = OPENWEATHER_API_KEY;
 
   if (!apiKey) {
     throw new Error('APIキーが設定されていません');
   }
 
-  const now = Date.now();
+  const weatherResponse = await _getWeatherAPI(locationCode, apiKey);
+  const expires = await _calcExpireDate(now, parseInt(CACHE_TTL_MILISEC));
 
-  // キャッシュがあり、有効期限内であれば使用
-  if (cachedData && now - cachedData.timestamp < CACHE_TTL) {
-    return cachedData.data;
+  const weatherData: WeatherCache = {
+    response: weatherResponse,
+    expires,
   }
-
-  // キャッシュがないか期限切れの場合は新しく取得
-  const weatherData = await _getWeatherAPI(locationCode, apiKey);
 
   // キャッシュに保存
   kv.put(locationCode, JSON.stringify(weatherData));
 
-
-  return weatherData;
+  return weatherResponse;
 }
 
 /**
@@ -91,5 +90,16 @@ async function _getWeatherAPI(locationCode: string, apiKey: string): Promise<Wea
     return data;
 }
 
-
+/**
+ * キャッシュの有効期限を計算する
+ * @param now 現在の日時
+ * @param ttl キャッシュの有効期間（ミリ秒）
+ * @returns 有効期限
+ */
+async function _calcExpireDate(now: Date, ttl: number): Promise<number> {
+  const nowTime = now.getTime();
+  const nextExpireDiff = ttl - (nowTime % ttl);
+  const expireDate = new Date(nowTime + nextExpireDiff);
+  return expireDate.getTime();
+}
 

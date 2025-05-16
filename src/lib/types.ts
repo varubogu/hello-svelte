@@ -98,4 +98,12 @@ export interface KVStore {
     put(key: string, value: string, opts?: { expirationTtl?: number }): Promise<void>;
     delete(key: string): Promise<void>;
     list(opts?: { prefix?: string }): Promise<string[]>;
-  }
+}
+
+/**
+ * 天気データの型
+ */
+export interface WeatherCache {
+    response: WeatherApiResponse;
+    expires: number;
+}
